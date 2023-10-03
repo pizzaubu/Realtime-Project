@@ -1,0 +1,57 @@
+{% extends 'classroom/base.html' %}
+
+{% block content %}
+<style>
+    .dashboard-item {
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin: 10px;
+        background-color: #f9f9f9;
+    }
+    .dashboard-item:hover {
+        background-color: #f1f1f1;
+    }
+</style>
+
+<section>
+    <div class="container-fluid">
+        <h2>Classroom Dashboard</h2>
+        <div class="row">
+            <div class="col-3">
+                <div class="dashboard-item">
+                    <h3>Overview</h3>
+                    <p>Total students: 30</p>
+                    <p>Pending assignments: 5</p>
+                    <p>Announcements: 2</p>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="dashboard-item">
+                    <h3>Manage Students</h3>
+                    <p><a href="#">View and edit student list</a></p>
+                    <p><a href="#">Add a student</a></p>
+                    <p><a href="#">Remove a student</a></p>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="dashboard-item">
+                    <h3>Assignments</h3>
+                    <p><a href="#">Create a new assignment</a></p>
+                    <p><a href="#">View pending assignments</a></p>
+                    <p><a href="#">Track submissions</a></p>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="dashboard-item">
+                    <h3>Classroom Settings</h3>
+                    <p><a href="#">Edit classroom details</a></p>
+                    <p><a href="#">Set access permissions</a></p>
+                    <p><a href="#">Choose a cover image</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

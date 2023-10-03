@@ -1,0 +1,114 @@
+{% extends 'classroom/base.html' %}
+
+{% block content %}
+<style>
+  .tab-links a {
+      display: inline-block;
+      margin: 0 15px;
+      padding: 10px 15px;
+      background-color: #f7f7f7;
+      border-radius: 5px 5px 0 0;
+      color: #555;
+      text-decoration: none;
+      transition: all 0.3s;
+  }
+
+  .tab-links a:hover, .tab-links a.active {
+      background-color: #e5e5e5;
+      color: #222;
+      border-bottom: 3px solid #4285F4;
+  }
+
+  .tab-content {
+      padding: 20px;
+      border: 1px solid #e5e5e5;
+      background-color: #f7f7f7;
+      border-top: none;
+  }
+</style>
+
+<section>
+    <div class="container-fluid">
+        <div class="row">
+          <aside class="col-2 ps-2 pe-2 pt-2 pb-2" style="border: 1px solid grey;">
+                <div class="w-full h-screen flex mt-2">
+                    <ul class="navbar-nav text-secondary">
+                        <li class="nav-link">
+                          <a class="nav-item text-secondary" href="#">
+                            <i class="fas fa-home"></i>
+                            หน้าแรก
+                          </a>
+                        </li>
+                        <li class="nav-link">
+                          <a class="nav-item text-secondary" href="#">
+                            <i class="fas fa-calendar"></i>
+                            ปฏิธิน
+                          </a>
+                        </li>
+                        <li class="nav-link">
+                          <a class="nav-item text-secondary" href="">
+                            <i class="fas fa-graduation-cap"></i>
+                            ลงทะเบียนแล้ว
+                          </a>
+                        </li>
+                        <li class="nav-link">
+                          <a class="nav-item text-secondary" href="">
+                            <i class="fas fa-archive"></i>
+                            ชั้นเรียนที่เก็บแล้ว
+                          </a>
+                        </li>
+                        <li class="nav-link">
+                          <a class="nav-item text-secondary" href="">
+                            <i class="fas fa-cog"></i>
+                            การตั้งค่า
+                          </a>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+            
+            <aside class="col-10">
+              <div class="w-full my-6">
+                  <div class="tab-links my-3">
+                      <a href="#" class="active">Stream</a>
+                      <a href="#">Classwork</a>
+                      <a href="#">People</a>
+                      <a href="#">Grade</a>
+                  </div>
+                  <!-- Stream Content -->
+                  <div class="tab-content active-content">
+                    <div class="post">
+                        <div class="post-header">
+                            <img src="teacher_avatar.jpg" alt="Teacher Avatar" width="50">
+                            <strong>ครูสมศรี</strong> <small>โพสต์เมื่อ 1 ชั่วโมงที่แล้ว</small>
+                        </div>
+                        <div class="post-body">
+                            สวัสดีครับนักเรียนทุกคน วันนี้เราจะเริ่มเรียนหน่วยใหม่ ...
+                            <img src="lesson_image.jpg" alt="Lesson Image" width="100%">
+                        </div>
+                        <div class="post-footer">
+                            <a href="#">5 ความคิดเห็น</a>
+                        </div>
+                    </div>
+                    <!-- (สามารถเพิ่มโพสต์เพิ่มเติมได้) -->
+                </div>
+
+                <!-- Assignment Content -->
+                <div class="tab-content">
+                    <div class="assignment">
+                        <h2>การบ้าน: การทำความเข้าใจเรื่อง...</h2>
+                        <p>โปรดอ่านเอกสารที่แนบมาและทำแบบฝึกหัดที่กำหนด...</p>
+                        <a href="document.pdf" download>ดาวน์โหลดเอกสาร</a>
+                        <hr>
+                        <button>ส่งการบ้าน</button>
+                    </div>
+                    <!-- (สามารถเพิ่มการบ้านเพิ่มเติมได้) -->
+                </div>
+              </div>
+          </aside>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

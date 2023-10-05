@@ -1,0 +1,54 @@
+{% extends 'classroom/base.html' %}
+
+{% block content %}
+<style>
+    .people-list-item {
+        padding: 15px;
+        border-bottom: 1px solid #ddd;
+        display: flex;
+        align-items: center;
+    }
+    .people-list-item:last-child {
+        border-bottom: none;
+    }
+    .people-name {
+        flex: 1;
+    }
+    .people-action {
+        margin-left: auto;
+    }
+</style>
+
+<section>
+    <div class="container-fluid">
+        <h2>บุคคลในชั้นเรียน</h2>
+
+        <!-- Teachers List -->
+        <h3>ครู/ผู้สอน</h3>
+        <div class="people-list">
+            <div class="people-list-item">
+                <div class="people-name">
+                    ครูสมชาย
+                </div>
+            </div>
+            <!-- More teachers can be listed here -->
+        </div>
+
+        <!-- Students List -->
+        <h3>นักเรียน</h3>
+        <div class="people-list">
+            <div class="people-list-item">
+                <div class="people-name">
+                    นักเรียนสมหญิง
+                </div>
+                <div class="people-action">
+                    <!-- This button is for teachers only -->
+                    <button>ลบ</button>
+                </div>
+            </div>
+            <!-- More students can be listed here -->
+        </div>
+    </div>
+</section>
+
+{% endblock %}

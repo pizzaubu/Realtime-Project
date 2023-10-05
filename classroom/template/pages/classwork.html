@@ -1,0 +1,62 @@
+{% extends 'classroom/base.html' %}
+
+{% block content %}
+<style>
+    .assignment-list-item {
+        padding: 15px;
+        border-bottom: 1px solid #ddd;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .assignment-list-item:last-child {
+        border-bottom: none;
+    }
+    .assignment-title {
+        flex: 2;
+    }
+    .assignment-status {
+        flex: 1;
+        text-align: center;
+    }
+    .assignment-create {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin-top: 20px;
+    }
+</style>
+
+<section>
+    <div class="container-fluid">
+        <h2>งานของชั้นเรียน</h2>
+
+        <!-- Assignments List -->
+        <div class="assignment-list">
+            <div class="assignment-list-item">
+                <div class="assignment-title">
+                    <a href="#">การบ้าน: การทำความเข้าใจเรื่อง...</a>
+                </div>
+                <div class="assignment-status">
+                    ส่งแล้ว 20/30
+                </div>
+            </div>
+            <!-- More assignments can be added here -->
+        </div>
+
+        <!-- Assignment Creation (for teachers) -->
+        <div class="assignment-create">
+            <h3>สร้างการบ้านใหม่</h3>
+            <form>
+                <label for="title">ชื่อการบ้าน:</label>
+                <input type="text" id="title" name="title">
+                
+                <label for="description">คำอธิบาย:</label>
+                <textarea id="description" name="description"></textarea>
+                
+                <input type="submit" value="สร้าง">
+            </form>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

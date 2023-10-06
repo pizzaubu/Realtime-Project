@@ -2,47 +2,54 @@
 
 {% block content %}
 <style>
-    .assignment-item {
-        padding: 20px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        margin: 10px 0;
-        background-color: #f9f9f9;
+    .class-title {
+        background-color: #2d3748;
+        color: #fff;
+        padding: 20px 0;
+        margin-bottom: 20px;
+        text-align: center;
     }
-    .assignment-item:hover {
-        background-color: #f1f1f1;
+    .assignment-card {
+        border: 1px solid #e2e8f0;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        padding: 20px;
     }
 </style>
 
-<section>
-    <div class="container-fluid">
-        <h2>Welcome, นักเรียนสมชาย</h2>
-        <div class="row">
-            <div class="col-8">
-                <!-- Announcements & Activities -->
-                <h3>ประกาศและกิจกรรม</h3>
-                <div class="assignment-item">
-                    <h4>การบ้าน: การทำความเข้าใจเรื่อง...</h4>
-                    <p>โปรดอ่านเอกสารที่แนบมาและทำแบบฝึกหัดที่กำหนด...</p>
-                    <a href="document.pdf" download>ดาวน์โหลดเอกสาร</a>
-                    <div class="due-date">
-                        กำหนดส่ง: วันที่ 15 มกราคม 2023
-                    </div>
-                    <button>ส่งการบ้าน</button>
-                </div>
-                <!-- More announcements or activities can be added here -->
-            </div>
-            <div class="col-4">
-                <!-- Upcoming Assignments -->
-                <h3>การบ้านที่จะมาถึง</h3>
-                <ul>
-                    <li><a href="#">การบ้าน: การอ่านเรื่อง...</a></li>
-                    <li><a href="#">การบ้าน: การเขียนเรื่อง...</a></li>
-                    <li><a href="#">การบ้าน: การวิเคราะห์เรื่อง...</a></li>
-                </ul>
+<div class="container-fluid">
+    <!-- Class Title -->
+    <div class="class-title">
+        <h2>วิชา ABC 123</h2>
+        <p>วิชา: นายสมชาย สมสุข</p>
+    </div>
+
+    <!-- Tabs for Stream, Classwork, People -->
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" href="#">Stream</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Classwork</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">People</a>
+        </li>
+    </ul>
+
+    <!-- Stream Content -->
+    <div class="stream-content mt-3">
+        <!-- Assignment Card -->
+        <div class="assignment-card">
+            <h4>การบ้าน: การทำความเข้าใจเรื่อง...</h4>
+            <p>โปรดอ่านเอกสารที่แนบมาและทำแบบฝึกหัดที่กำหนด...</p>
+            <a href="document.pdf" download class="btn btn-primary btn-sm">ดาวน์โหลดเอกสาร</a>
+            <div class="due-date mt-2">
+                <small>กำหนดส่ง: วันที่ 15 มกราคม 2023</small>
             </div>
         </div>
+        <!-- ... Add more assignment cards or announcements here ... -->
     </div>
-</section>
+</div>
 
 {% endblock %}

@@ -32,3 +32,10 @@ class CourseStudent(models.Model):
 class CourseTeacher(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE) 
+
+class Assignment(models.Model):
+    title = models.CharField(max_length=300)
+    description = models.TextField()
+    due_date = models.DateField()
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    document = models.FileField(upload_to='assignments/', null=True, blank=True) 

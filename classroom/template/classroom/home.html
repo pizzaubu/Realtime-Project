@@ -25,66 +25,101 @@
       background-color: #f7f7f7;
       border-top: none;
   }
+
+  .class-title {
+        background-color: #ebebeb;
+        color: #fff;
+        padding: 20px 0;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .due-alert {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ffeb3b;
+    padding: 15px 20px;
+    border-bottom: 3px solid #fbc02d;
+    font-size: 16px;
+  }
+
+  .alert-icon,
+  .alert-close {
+      margin: 0 10px;
+      cursor: pointer;
+  }
+
+  .alert-text {
+      flex: 1;
+  }
+
+  .post-details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid #e5e5e5;
+        border-radius: 5px;
+        padding: 8px;
+        background-color: #f7f7f7;
+        margin-top: 15px;
+    }
+
+    .post-detail-item {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        margin-right: 10px;
+    }
+
+    .post-detail-icon {
+        margin-right: 5px;
+    }
+
 </style>
+
+<div class="due-alert">
+  <span class="alert-icon"><i class="fas fa-exclamation-circle"></i></span>
+  <span class="alert-text">คุณมีงาน <strong>การบ้าน: การทำความเข้าใจเรื่อง...</strong> ที่ต้องส่งภายใน 3 วัน</span>
+  <span class="alert-close"><i class="fas fa-times"></i></span>
+</div>
 
 <section>
     <div class="container-fluid">
-        <div class="row">
-          <aside class="col-2 ps-2 pe-2 pt-2 pb-2" style="border: 1px solid grey;">
-                <div class="w-full h-screen flex mt-2">
-                    <ul class="navbar-nav text-secondary">
-                        <li class="nav-link">
-                          <a class="nav-item text-secondary" href="#">
-                            <i class="fas fa-home"></i>
-                            หน้าแรก
-                          </a>
-                        </li>
-                        <li class="nav-link">
-                          <a class="nav-item text-secondary" href="#">
-                            <i class="fas fa-calendar"></i>
-                            ปฏิธิน
-                          </a>
-                        </li>
-                        <li class="nav-link">
-                          <a class="nav-item text-secondary" href="">
-                            <i class="fas fa-graduation-cap"></i>
-                            ลงทะเบียนแล้ว
-                          </a>
-                        </li>
-                        <li class="nav-link">
-                          <a class="nav-item text-secondary" href="">
-                            <i class="fas fa-archive"></i>
-                            ชั้นเรียนที่เก็บแล้ว
-                          </a>
-                        </li>
-                        <li class="nav-link">
-                          <a class="nav-item text-secondary" href="">
-                            <i class="fas fa-cog"></i>
-                            การตั้งค่า
-                          </a>
-                        </li>
-                    </ul>
-                </div>
-            </aside>
-            
-            <aside class="col-10">
-              <div class="w-full my-6">
-                  <div class="tab-links my-3">
-                      <a href="#" class="active">Stream</a>
-                      <a href="#">Classwork</a>
-                      <a href="#">People</a>
-                      <a href="#">Grade</a>
-                  </div>
+        <div class="row">            
+            <div class="col-10">
+              <div class="tab-links my-3">
+                  <a href="#" class="active">Stream</a>
+                  <a href="#">Classwork</a>
+                  <a href="#">People</a>
+              </div>
+
+              <div class="class-title">
+                <img src="static/images/Datawarehouse.png" alt="Lesson Image" width="100%">
+              </div>
                   <!-- Stream Content -->
                   <div class="tab-content active-content">
                     <div class="post">
                         <div class="post-header">
-                            <img src="teacher_avatar.jpg" alt="Teacher Avatar" width="50">
-                            <strong>ครูสมศรี</strong> <small>โพสต์เมื่อ 1 ชั่วโมงที่แล้ว</small>
+                            <img src="static/images/profile.jpg" alt="Teacher Avatar" width="50">
+                            <strong>Wichit Sombat</strong> <small>โพสต์เมื่อ 1 ชั่วโมงที่แล้ว</small>
                         </div>
                         <div class="post-body">
-                            สวัสดีครับนักเรียนทุกคน วันนี้เราจะเริ่มเรียนหน่วยใหม่ ...
-                            <img src="lesson_image.jpg" alt="Lesson Image" width="100%">
+                          จองเวลาสอบตัวต่อตัวได้ที่ https://docs.google.com/spreadsheets/d/1zZgqlpn3fCktF2ozPfIeGbQh9Xhniv-BklXq9CzcNK8/edit?usp=sharing
+                        </div>
+                        <div class="post-details">
+                          <div class="post-detail-item">
+                              <span class="post-detail-icon"><i class="fas fa-comment"></i></span>
+                              5 ความคิดเห็น
+                          </div>
+                          <div class="post-detail-item">
+                              <span class="post-detail-icon"><i class="fas fa-check-circle"></i></span>
+                              10 ส่งแล้ว
+                          </div>
+                          <div class="post-detail-item">
+                              <span class="post-detail-icon"><i class="fas fa-exclamation-circle"></i></span>
+                              5 ยังไม่ได้ส่ง
+                          </div>
                         </div>
                         <div class="post-footer">
                             <a href="#">5 ความคิดเห็น</a>
@@ -92,9 +127,8 @@
                     </div>
                     <!-- (สามารถเพิ่มโพสต์เพิ่มเติมได้) -->
                 </div>
-
                 <!-- Assignment Content -->
-                <div class="tab-content">
+                <div class="tab-content mt-4">
                     <div class="assignment">
                         <h2>การบ้าน: การทำความเข้าใจเรื่อง...</h2>
                         <p>โปรดอ่านเอกสารที่แนบมาและทำแบบฝึกหัดที่กำหนด...</p>
@@ -105,10 +139,17 @@
                     <!-- (สามารถเพิ่มการบ้านเพิ่มเติมได้) -->
                 </div>
               </div>
-          </aside>
+          
 
         </div>
     </div>
 </section>
+
+<script>
+  document.querySelector('.alert-close').addEventListener('click', function() {
+      document.querySelector('.due-alert').style.display = 'none';
+  });
+</script>
+
 
 {% endblock %}

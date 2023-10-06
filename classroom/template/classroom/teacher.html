@@ -1,4 +1,5 @@
 {% extends 'classroom/base.html' %}
+{% load static %}
 
 {% block content %}
 <style>
@@ -17,6 +18,34 @@
 <section>
     <div class="container-fluid">
         <h2>Classroom Dashboard</h2>
+        <article class="card">
+            <header class="card-header">
+                <strong class="d-inline-block mr-3"></strong>
+                <span>โปรไฟล์ของฉัน</span>
+            </header>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                              <strong>ชื่อ:</strong> Wichit Sombat
+                            </li>
+                            <li class="list-group-item">
+                              <strong>รายวิชาของฉัน:</strong> 
+                              <p>Data Warehousing</p>
+                              <p>Mobile Development</p>
+                              <p>Data Science Toolbox</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="offset-2 col-4">
+                        <div>
+                            <img src="{% static 'images/profile.jpg' %}" alt="Teacher Avatar" class="img-fluid rounded-circle" style="max-width: 200px; max-height: 200px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
         <div class="row">
             <div class="col-3">
                 <div class="dashboard-item">

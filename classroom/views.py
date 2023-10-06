@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import StudentRegistrationForm, TeacherRegistrationForm
+from kafka import KafkaProducer
 from classroom.models import *
 
 def register_student(request):
@@ -60,3 +61,27 @@ def remove_student_from_course(student_id, course_id):
 
 def remove_teacher_from_course(teacher_id, course_id):
     CourseTeacher.objects.filter(teacher_id=teacher_id, course_id=course_id).delete()
+
+def notify_new_course(course_id):
+    # Initialize Kafka producer
+    producer = KafkaProducer(bootstrap_servers='localhost:9092')
+    # Send message
+    producer.send('new_course_topic', value=str(course_id))
+    producer.close()
+
+def create_course(subject_name, teach_date, start_time, end_time):
+    course = Course.objects.create(
+        subject_name=subject_name,
+        teach_date=teach_date,
+        start_time=start_time,
+        end_time=end_time
+    )
+    notify_new_course(course.id)
+    return course
+
+def student_listen_for_new_courses():
+    consumer = KafkaConsumer('new_course_topic', bootstrap_servers='localhost:9092', auto_offset_reset='earliest')
+    for message in consumer:
+        course_id = int(message.value.decode('utf-8'))
+        course = Course.objects.get(pk=course_id)
+        print(f"New Course Available: {course.subject_name}")

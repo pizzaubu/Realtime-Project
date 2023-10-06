@@ -1,0 +1,39 @@
+{% extends 'classroom/base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <h2>เพิ่มงาน</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            {{ form.title.label_tag }}
+            {{ form.title }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.description.label_tag }}
+            {{ form.description }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.due_date.label_tag }}
+            {{ form.due_date }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.course.label_tag }}
+            {{ form.course }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.file.label_tag }}
+            {{ form.file }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">เพิ่มงาน</button>
+    </form>
+</div>
+
+{% endblock %}

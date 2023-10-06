@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from .forms import StudentRegistrationForm, TeacherRegistrationForm
 from kafka import KafkaProducer
 from classroom.models import *
+from .forms import AssignmentForm
+
 
 def register_student(request):
     if request.method == 'POST':
@@ -50,17 +52,17 @@ def add_teacher_to_course(teacher_id, course_id):
     course = Course.objects.get(pk=course_id)
     return CourseTeacher.objects.create(teacher=teacher, course=course)
 
-def get_students_of_course(course_id):
-    return [cs.student for cs in CourseStudent.objects.filter(course_id=course_id)]
+def add_assignment(request):
+    if request.method == "POST":
+        form = AssignmentForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('some_view_name')  # ส่งกลับไปยังหน้าที่ต้องการหลังจากเพิ่ม Assignment เรียบร้อย
+    else:
+        form = AssignmentForm()
 
-def get_teachers_of_course(course_id):
-    return [ct.teacher for ct in CourseTeacher.objects.filter(course_id=course_id)]
-
-def remove_student_from_course(student_id, course_id):
-    CourseStudent.objects.filter(student_id=student_id, course_id=course_id).delete()
-
-def remove_teacher_from_course(teacher_id, course_id):
-    CourseTeacher.objects.filter(teacher_id=teacher_id, course_id=course_id).delete()
+    context = {'form': form}
+    return render(request, 'classroom/add_assignment.html', context)
 
 def notify_new_course(course_id):
     # Initialize Kafka producer

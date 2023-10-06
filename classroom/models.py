@@ -38,4 +38,4 @@ class Assignment(models.Model):
     description = models.TextField()
     due_date = models.DateField()
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    document = models.FileField(upload_to='assignments/', null=True, blank=True) 
+    file = models.FileField(upload_to='assignments/', null=True, blank=True) 

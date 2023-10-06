@@ -10,7 +10,7 @@ def register_student(request):
         form = StudentRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('some_success_page')  # เปลี่ยนไปยัง URL ของหน้าที่ต้องการหลังจากการลงทะเบียน
+            return redirect('home')  # เปลี่ยนไปยัง URL ของหน้าที่ต้องการหลังจากการลงทะเบียน
     else:
         form = StudentRegistrationForm()
     return render(request, 'registration/student_register.html', {'form': form})
@@ -20,7 +20,7 @@ def register_teacher(request):
         form = TeacherRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('some_success_page')  # เปลี่ยนไปยัง URL ของหน้าที่ต้องการหลังจากการลงทะเบียน
+            return redirect('home')  # เปลี่ยนไปยัง URL ของหน้าที่ต้องการหลังจากการลงทะเบียน
     else:
         form = TeacherRegistrationForm()
     return render(request, 'registration/teacher_register.html', {'form': form})
@@ -57,7 +57,7 @@ def add_assignment(request):
         form = AssignmentForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('some_view_name')  # ส่งกลับไปยังหน้าที่ต้องการหลังจากเพิ่ม Assignment เรียบร้อย
+            return redirect('teacher')  # ส่งกลับไปยังหน้าที่ต้องการหลังจากเพิ่ม Assignment เรียบร้อย
     else:
         form = AssignmentForm()
 
@@ -87,3 +87,14 @@ def student_listen_for_new_courses():
         course_id = int(message.value.decode('utf-8'))
         course = Course.objects.get(pk=course_id)
         print(f"New Course Available: {course.subject_name}")
+
+def display_graph(request):
+    # คำนวณหรือเตรียมข้อมูลที่ต้องการส่งไปแสดงใน dataframe
+    # สมมติว่า dataframe_html คือสตริง HTML ที่แสดงข้อมูล dataframe
+    dataframe_html = "<p>ข้อมูลที่เราต้องการแสดง (แทนที่ข้อมูลจริง)</p>"
+
+    context = {
+        'dataframe': dataframe_html
+    }
+
+    return render(request, 'graph.html', context)

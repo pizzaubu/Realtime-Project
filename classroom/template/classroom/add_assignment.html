@@ -3,37 +3,50 @@
 {% block content %}
 
 <div class="container mt-5">
-    <h2>เพิ่มงาน</h2>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        
-        <div class="mb-3">
-            {{ form.title.label_tag }}
-            {{ form.title }}
-        </div>
+    <div class="card bg-body-tertiary">
+        <div class="card-body">
+            <header class="card-header">
+                <strong class="d-inline-block mr-3"></strong>
+                <span>เพิ่มงาน</span>
+            </header>
+            <div class="row mt-2">
+                <div class="col-12 bg-">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            {{ form.title.label_tag }}
+                            {{ form.title }}
+                        </div>
 
-        <div class="mb-3">
-            {{ form.description.label_tag }}
-            {{ form.description }}
-        </div>
+                        <div class="mb-3">
+                            <p class="card-text">
+                                {{ form.description.label_tag }}
+                                {{ form.description }}
+                            </p>
+                        </div>
 
-        <div class="mb-3">
-            {{ form.due_date.label_tag }}
-            {{ form.due_date }}
-        </div>
+                        <div class="mb-3">
+                            {{ form.due_date.label_tag }}
+                            {{ form.due_date }}
+                        </div>
 
-        <div class="mb-3">
-            {{ form.course.label_tag }}
-            {{ form.course }}
-        </div>
+                        <div class="mb-3">
+                            {{ form.course.label_tag }}
+                            {{ form.course }}
+                        </div>
 
-        <div class="mb-3">
-            {{ form.file.label_tag }}
-            {{ form.file }}
-        </div>
+                        <div class="mb-3">
+                            {{ form.file.label_tag }}
+                            {{ form.file }}
+                        </div>
 
-        <button type="submit" class="btn btn-primary">เพิ่มงาน</button>
-    </form>
+                        <button type="submit" class="btn btn-primary btn-block">เพิ่มงาน</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock %}

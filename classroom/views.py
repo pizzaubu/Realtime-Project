@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
-from .forms import StudentRegistrationForm, TeacherRegistrationForm
+from .forms import StudentRegistrationForm, TeacherRegistrationForm, SubmitAssignmentForm
 from kafka import KafkaProducer
+import json
 from classroom.models import *
 from .forms import AssignmentForm
 
@@ -56,7 +57,25 @@ def add_assignment(request):
     if request.method == "POST":
         form = AssignmentForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            assignment = form.save()
+
+            # Create Kafka producer
+            producer = KafkaProducer(bootstrap_servers='localhost:9092', 
+                                     value_serializer=lambda v: json.dumps(v).encode('utf-8'))
+
+            # Prepare message data
+            message = {
+                'assignment_id': assignment.id,
+                'title': assignment.title,
+                'description': assignment.description,
+                'due_date': str(assignment.due_date),
+                'course': assignment.course.subject_name
+            }
+
+            # Send message to Kafka
+            producer.send('new-assignments', message)
+            producer.flush()
+
             return redirect('teacher')  # ส่งกลับไปยังหน้าที่ต้องการหลังจากเพิ่ม Assignment เรียบร้อย
     else:
         form = AssignmentForm()
@@ -98,3 +117,31 @@ def display_graph(request):
     }
 
     return render(request, 'graph.html', context)
+
+def submit_assignment(request):
+    if request.method == 'POST':
+        form = SubmitAssignmentForm(request.POST, request.FILES)
+        if form.is_valid():
+            assignment = form.save(commit=False)
+            assignment.save()
+            
+            # Create Kafka producer
+            producer = KafkaProducer(bootstrap_servers='localhost:9092', value_serializer=lambda v: json.dumps(v).encode('utf-8'))
+            
+            # Prepare message data
+            message = {
+                'student': assignment.student.id,
+                'assignment': assignment.title,
+                'file': assignment.file.url if assignment.file else None
+            }
+            
+            # Send message to Kafka
+            producer.send('assignment-submissions', message)
+            producer.flush()
+            
+            return redirect('home')
+        else:
+            return render(request, 'classroom/submit_assignment.html', {'form': form})
+    else:
+        form = SubmitAssignmentForm()
+        return render(request, 'classroom/submit_assignment.html', {'form': form})

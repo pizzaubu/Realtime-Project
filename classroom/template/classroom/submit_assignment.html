@@ -1,0 +1,40 @@
+{% extends 'classroom/base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="card bg-body-tertiary">
+        <div class="card-body">
+            <header class="card-header">
+                <strong class="d-inline-block mr-3"></strong>
+                <span>ส่งการบ้าน</span>
+            </header>
+            <div class="row mt-2">
+                <div class="col-12 bg-">
+                    <form action="{% url 'submit_assignment' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="title" class="form-label">ชื่อการบ้าน:</label>
+                            <input type="text" class="form-control" id="title" name="title" required>
+                        </div>
+            
+                        <div class="mb-3">
+                            <label for="description" class="form-label">คำอธิบาย:</label>
+                            <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                        </div>
+            
+                        <div class="mb-3">
+                            <label for="file" class="form-label">ไฟล์การบ้าน:</label>
+                            <input type="file" class="form-control" id="file" name="file" required>
+                        </div>
+            
+                        <button type="submit" class="btn btn-primary">ส่งการบ้าน</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

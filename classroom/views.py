@@ -13,7 +13,7 @@ def register_student(request):
             return redirect('home')  # เปลี่ยนไปยัง URL ของหน้าที่ต้องการหลังจากการลงทะเบียน
     else:
         form = StudentRegistrationForm()
-    return render(request, 'registration/student_register.html', {'form': form})
+    return render(request, 'classroom/student_register.html', {'form': form})
 
 def register_teacher(request):
     if request.method == 'POST':
@@ -23,7 +23,7 @@ def register_teacher(request):
             return redirect('home')  # เปลี่ยนไปยัง URL ของหน้าที่ต้องการหลังจากการลงทะเบียน
     else:
         form = TeacherRegistrationForm()
-    return render(request, 'registration/teacher_register.html', {'form': form})
+    return render(request, 'classroom/teacher_register.html', {'form': form})
 
 def home(req):
     return render(req, 'classroom/home.html')

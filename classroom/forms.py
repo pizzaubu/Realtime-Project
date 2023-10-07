@@ -24,7 +24,7 @@ class LoginForm(AuthenticationForm):
 class SubmitAssignmentForm(forms.ModelForm):
     class Meta:
         model = Assignment
-        fields = ['title', 'description', 'file', 'due_date']
+        fields = ['title', 'description', 'file', 'due_date', 'course']
 
         labels = {
             'title': 'ชื่อการบ้าน',
@@ -35,6 +35,7 @@ class SubmitAssignmentForm(forms.ModelForm):
 
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'course': forms.Select(attrs={'class': 'form-control'}), 
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': '3'}),
             'file': forms.FileInput(attrs={'class': 'form-control'}),
             'due_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),  # ตัวเลือกวันที่

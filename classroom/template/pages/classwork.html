@@ -24,37 +24,61 @@
         border: 1px solid #ddd;
         margin-top: 20px;
     }
+    .tab-links a {
+      display: inline-block;
+      margin: 0 15px;
+      padding: 10px 15px;
+      background-color: #f7f7f7;
+      border-radius: 5px 5px 0 0;
+      color: #555;
+      text-decoration: none;
+      transition: all 0.3s;
+  }
+
+  .tab-links a:hover, .tab-links a.active {
+      background-color: #e5e5e5;
+      color: #222;
+      border-bottom: 3px solid #4285F4;
+  }
+
+  .tab-content {
+      padding: 20px;
+      border: 1px solid #e5e5e5;
+      background-color: #f7f7f7;
+      border-top: none;
+  }
 </style>
 
 <section>
-    <div class="container-fluid">
-        <h2>งานของชั้นเรียน</h2>
-
-        <!-- Assignments List -->
-        <div class="assignment-list">
-            <div class="assignment-list-item">
-                <div class="assignment-title">
-                    <a href="#">การบ้าน: การทำความเข้าใจเรื่อง...</a>
-                </div>
-                <div class="assignment-status">
-                    ส่งแล้ว 20/30
-                </div>
-            </div>
-            <!-- More assignments can be added here -->
+    <div class="container-fluid ps-2 pt-4 pe-2 pb-4">
+        <div class="tab-links my-3">
+            <a href="{% url 'home' %}" class="active">Stream</a>
+            <a href="{% url 'classwork' %}">Classwork</a>
+            <a href="#">People</a>
         </div>
-
-        <!-- Assignment Creation (for teachers) -->
-        <div class="assignment-create">
-            <h3>สร้างการบ้านใหม่</h3>
-            <form>
-                <label for="title">ชื่อการบ้าน:</label>
-                <input type="text" id="title" name="title">
-                
-                <label for="description">คำอธิบาย:</label>
-                <textarea id="description" name="description"></textarea>
-                
-                <input type="submit" value="สร้าง">
-            </form>
+        <header class="card-header">
+            <h2>Classwork</h2>
+        </header>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <tbody class="bg_table">
+                    {% for assignment in assignments %}
+                        <div class="assignment-list-item">
+                        <div class="assignment-title">
+                            <a href="#">{{ assignment.title }}</a>
+                        </div>
+                        <div class="assignment-status">
+                            <!-- คำนวณจำนวนการส่งของ assignment -->
+                            {% if assignment.submmissions is not None %}
+                                ส่งแล้ว {{ assignment.submissions.count }}/{{ students_in_course.count }}
+                            {% else %}
+                                จำนวนคนที่ส่ง : 0
+                            {% endif %}
+                        </div>
+                </div>
+            {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 </section>

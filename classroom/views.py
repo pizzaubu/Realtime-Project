@@ -1,30 +1,66 @@
 from django.shortcuts import render, redirect
-from .forms import StudentRegistrationForm, TeacherRegistrationForm, SubmitAssignmentForm
+from django.contrib.auth import authenticate, login, logout
+from .forms import StudentRegistrationForm, TeacherRegistrationForm, SubmitAssignmentForm, LoginForm
 from kafka import KafkaProducer
 import json
 from classroom.models import *
 from .forms import AssignmentForm
+from .kafka_producer import send_assignment_message
 
 
-def register_student(request):
+def register(request):
     if request.method == 'POST':
-        form = StudentRegistrationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('home')  # เปลี่ยนไปยัง URL ของหน้าที่ต้องการหลังจากการลงทะเบียน
+        if 'student_form' in request.POST:  # ตรวจสอบว่าฟอร์มใดถูกส่งมา
+            student_form = StudentRegistrationForm(request.POST)
+            if student_form.is_valid():
+                student_form.save()
+                return redirect('home')
+            teacher_form = TeacherRegistrationForm()  # สร้าง instance แบบว่างเพื่อแสดงใน template
+        else:
+            teacher_form = TeacherRegistrationForm(request.POST)
+            if teacher_form.is_valid():
+                teacher_form.save()
+                return redirect('home')
+            student_form = StudentRegistrationForm()
     else:
-        form = StudentRegistrationForm()
-    return render(request, 'classroom/student_register.html', {'form': form})
+        student_form = StudentRegistrationForm()
+        teacher_form = TeacherRegistrationForm()
 
-def register_teacher(request):
+    return render(request, 'classroom/register.html', {'student_form': student_form, 'teacher_form': teacher_form})
+
+
+def log_in(request):
     if request.method == 'POST':
-        form = TeacherRegistrationForm(request.POST)
+        form = LoginForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('home')  # เปลี่ยนไปยัง URL ของหน้าที่ต้องการหลังจากการลงทะเบียน
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+
+            if user is not None:
+                login(request, user)
+                
+                # Check if logged in user is a teacher or student
+                if Teacher.objects.filter(user=user).exists():
+                    # User is a teacher
+                    return redirect('teacher')  # Redirect to teacher's dashboard or any other desired URL
+                elif Student.objects.filter(user=user).exists():
+                    # User is a student
+                    return redirect('student')  # Redirect to student's dashboard or any other desired URL
+                else:
+                    # This user is neither a teacher nor a student
+                    return redirect('home')
+
+            else:
+                form.add_error(None, "Invalid username or password")
     else:
-        form = TeacherRegistrationForm()
-    return render(request, 'classroom/teacher_register.html', {'form': form})
+        form = LoginForm()
+
+    return render(request, 'classroom/login.html', {'form': form})
+
+def log_out(request):
+    logout(request)
+    return redirect('login')
 
 def home(req):
     return render(req, 'classroom/home.html')
@@ -59,22 +95,16 @@ def add_assignment(request):
         if form.is_valid():
             assignment = form.save()
 
-            # Create Kafka producer
-            producer = KafkaProducer(bootstrap_servers='localhost:9092', 
-                                     value_serializer=lambda v: json.dumps(v).encode('utf-8'))
-
-            # Prepare message data
-            message = {
+            # 2. ใช้ฟังก์ชัน send_assignment_message แทนการสร้าง Kafka producer ในฟังก์ชันนี้
+            message_data = {
+                'type': 'assignment',  # เพิ่ม type เพื่อระบุประเภทข้อมูล
                 'assignment_id': assignment.id,
                 'title': assignment.title,
                 'description': assignment.description,
                 'due_date': str(assignment.due_date),
                 'course': assignment.course.subject_name
             }
-
-            # Send message to Kafka
-            producer.send('new-assignments', message)
-            producer.flush()
+            send_assignment_message(message_data)
 
             return redirect('teacher')  # ส่งกลับไปยังหน้าที่ต้องการหลังจากเพิ่ม Assignment เรียบร้อย
     else:
@@ -132,6 +162,8 @@ def submit_assignment(request):
             message = {
                 'student': assignment.student.id,
                 'assignment': assignment.title,
+                'description': assignment.description,  # ถ้าคุณต้องการเพิ่มคำอธิบาย
+                'due_date': assignment.due_date.strftime('%Y-%m-%d') if assignment.due_date else None,  # แปลงเป็น string
                 'file': assignment.file.url if assignment.file else None
             }
             
@@ -145,3 +177,11 @@ def submit_assignment(request):
     else:
         form = SubmitAssignmentForm()
         return render(request, 'classroom/submit_assignment.html', {'form': form})
+
+    
+def classwork(request):
+    assignments = Assignment.objects.all()
+    context={
+        'assignments':assignments
+    }
+    return render(request, 'pages/classwork.html',context)

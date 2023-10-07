@@ -1,0 +1,51 @@
+{% extends 'classroom/base.html' %}
+
+{% block content %}
+<section>
+    <div class="card mx-auto bg-info-subtle" style="max-width:520px; margin-top:40px;">
+        <article class="card-body">
+            <h2>ลงทะเบียน</h2>
+    
+            <label for="accountType">เลือกประเภทบัญชี:</label>
+            <select id="accountType">
+                <option value="student">นักเรียน</option>
+                <option value="teacher">อาจารย์</option>
+            </select>
+    
+            <div id="studentForm" class="registration-form">
+                <h3>ลงทะเบียนนักเรียน</h3>
+                <form action="{% url 'register' %}" method="POST">
+                    {% csrf_token %}
+                    {{ student_form.as_p }}
+                    <button type="submit">ลงทะเบียน</button>
+                </form>
+            </div>
+    
+            <div id="teacherForm" class="registration-form" style="display: none;">
+                <h3>ลงทะเบียนอาจารย์</h3>
+                <form action="{% url 'register' %}" method="POST">
+                    {% csrf_token %}
+                    {{ teacher_form.as_p }}
+                    <button type="submit">ลงทะเบียน</button>
+                </form>
+            </div>
+        </article>
+        
+    </div>
+</section>
+
+<script>
+    // เปลี่ยนฟอร์มที่แสดงขึ้นตามการเลือกของผู้ใช้
+    document.getElementById('accountType').addEventListener('change', function() {
+        const selectedValue = this.value;
+        if (selectedValue === 'student') {
+            document.getElementById('studentForm').style.display = 'block';
+            document.getElementById('teacherForm').style.display = 'none';
+        } else {
+            document.getElementById('teacherForm').style.display = 'block';
+            document.getElementById('studentForm').style.display = 'none';
+        }
+    });
+</script>
+
+{% endblock %}

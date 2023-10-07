@@ -89,44 +89,34 @@
         <div class="row">            
             <div class="col-10">
               <div class="tab-links my-3">
-                  <a href="#" class="active">Stream</a>
-                  <a href="#">Classwork</a>
+                  <a href="{% url 'home' %}" class="active">Stream</a>
+                  <a href="{% url 'classwork' %}">Classwork</a>
                   <a href="#">People</a>
               </div>
+              
+              <a href="{% url 'submit_assignment' %}" class="btn btn-primary">ส่งการบ้าน</a>
 
               <div class="class-title">
                 <img src="static/images/Datawarehouse.png" alt="Lesson Image" width="100%">
               </div>
+                {% for course in courses %}
                   <!-- Stream Content -->
-                  <div class="tab-content active-content">
-                    <div class="post">
-                        <div class="post-header">
-                            <img src="static/images/profile.jpg" alt="Teacher Avatar" width="50">
-                            <strong>Wichit Sombat</strong> <small>โพสต์เมื่อ 1 ชั่วโมงที่แล้ว</small>
+                    <div class="tab-content active-content">
+                        <div class="post">
+                            <div class="post-header">
+                                <img src="static/images/profile.jpg" alt="Teacher Avatar" width="50">
+                                <strong>Wichit Sombat</strong> <small>โพสต์เมื่อ 1 ชั่วโมงที่แล้ว</small>
+                            </div>
+                            <div class="post-body">
+                            จองเวลาสอบตัวต่อตัวได้ที่ https://docs.google.com/spreadsheets/d/1zZgqlpn3fCktF2ozPfIeGbQh9Xhniv-BklXq9CzcNK8/edit?usp=sharing
+                            </div>
+                            <div class="post-footer">
+                                <a href="#">5 ความคิดเห็น</a>
+                            </div>
                         </div>
-                        <div class="post-body">
-                          จองเวลาสอบตัวต่อตัวได้ที่ https://docs.google.com/spreadsheets/d/1zZgqlpn3fCktF2ozPfIeGbQh9Xhniv-BklXq9CzcNK8/edit?usp=sharing
-                        </div>
-                        <div class="post-details">
-                          <div class="post-detail-item">
-                              <span class="post-detail-icon"><i class="fas fa-comment"></i></span>
-                              5 ความคิดเห็น
-                          </div>
-                          <div class="post-detail-item">
-                              <span class="post-detail-icon"><i class="fas fa-check-circle"></i></span>
-                              10 ส่งแล้ว
-                          </div>
-                          <div class="post-detail-item">
-                              <span class="post-detail-icon"><i class="fas fa-exclamation-circle"></i></span>
-                              5 ยังไม่ได้ส่ง
-                          </div>
-                        </div>
-                        <div class="post-footer">
-                            <a href="#">5 ความคิดเห็น</a>
-                        </div>
+                        <!-- (สามารถเพิ่มโพสต์เพิ่มเติมได้) -->
                     </div>
-                    <!-- (สามารถเพิ่มโพสต์เพิ่มเติมได้) -->
-                </div>
+                {% endfor %}
                 <!-- Assignment Content -->
                 <div class="tab-content mt-4">
                     <div class="assignment">

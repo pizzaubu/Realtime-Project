@@ -3,14 +3,18 @@ from .models import Student, Teacher, Assignment,Course
 from django.contrib.auth.forms import AuthenticationForm
 
 class StudentRegistrationForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput(), label='Password')
+
     class Meta:
         model = Student
-        fields = ['username', 'first_name', 'last_name', 'email']
+        fields = ['username', 'first_name', 'last_name', 'email', 'password']
 
 class TeacherRegistrationForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput(), label='Password')
+
     class Meta:
         model = Teacher
-        fields = ['username', 'first_name', 'last_name', 'email']
+        fields = ['username', 'first_name', 'last_name', 'email', 'password']
 
 class AssignmentForm(forms.ModelForm):
     class Meta:

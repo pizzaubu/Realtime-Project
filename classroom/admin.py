@@ -13,6 +13,7 @@ class TeacherAdmin(admin.ModelAdmin):
 class CourseAdmin(admin.ModelAdmin):
     list_display = ['id', 'subject_name', 'teach_date', 'start_time', 'end_time']
 
+
 # Admin class for CourseStudent
 class CourseStudentAdmin(admin.ModelAdmin):
     list_display = ['course', 'student']

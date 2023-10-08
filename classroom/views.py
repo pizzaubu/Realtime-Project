@@ -12,23 +12,42 @@ from django.contrib.auth.decorators import login_required
 
 def register(request):
     if request.method == 'POST':
-        if 'student_form' in request.POST:  # ตรวจสอบว่าฟอร์มใดถูกส่งมา
+        form_type = request.POST.get('form_type', 'student')
+        
+        if form_type == 'student':
             student_form = StudentRegistrationForm(request.POST)
             if student_form.is_valid():
-                student_form.save()
+                user = User.objects.create_user(
+                    username=request.POST['username'],
+                    password=request.POST['password'],
+                    email=request.POST['email'],
+                    first_name=request.POST['first_name'],
+                    last_name=request.POST['last_name'],
+                )
+                student = student_form.save(commit=False)
+                student.user = user
+                student.save()
                 return redirect('home')
-            teacher_form = TeacherRegistrationForm()  # สร้าง instance แบบว่างเพื่อแสดงใน template
         else:
             teacher_form = TeacherRegistrationForm(request.POST)
             if teacher_form.is_valid():
-                teacher_form.save()
+                user = User.objects.create_user(
+                    username=request.POST['username'],
+                    password=request.POST['password'],
+                    email=request.POST['email'],
+                    first_name=request.POST['first_name'],
+                    last_name=request.POST['last_name'],
+                )
+                teacher = teacher_form.save(commit=False)
+                teacher.user = user
+                teacher.save()
                 return redirect('home')
-            student_form = StudentRegistrationForm()
     else:
         student_form = StudentRegistrationForm()
         teacher_form = TeacherRegistrationForm()
 
     return render(request, 'classroom/register.html', {'student_form': student_form, 'teacher_form': teacher_form})
+
 
 
 def log_in(request):
@@ -154,26 +173,31 @@ def display_graph(request):
 def submit_assignment(request):
     if request.method == 'POST':
         form = SubmitAssignmentForm(request.POST, request.FILES)
+        
         if form.is_valid():
-            assignment = form.save(commit=False)
-            assignment.student = request.user.student
-            assignment.save()
-            
-            # Prepare message data for successful submission
-            message = {
-                'type': 'assignment_submission',
-                'assignment_id': assignment.id,
-                'course_id': assignment.course.id,
-                'student_id': request.user.id,
-                'submitted_date': assignment.due_date.strftime('%Y-%m-%d'),
-                'file_path': assignment.file.url if assignment.file else None
-            }
+            # Check if the user has a student profile
+            if hasattr(request.user, 'student'):
+                assignment = form.save(commit=False)
+                assignment.student = request.user.student
+                assignment.save()
 
-            # Send message to Kafka
-            send_assignment_submission_message(message)
-            
-            messages.success(request, 'ส่งการบ้านสำเร็จ')  # เพิ่มข้อความแจ้งเตือนเมื่อสำเร็จ
-            return redirect('home')
+                # Prepare message data for successful submission
+                message = {
+                    'type': 'assignment_submission',
+                    'assignment_id': assignment.id,
+                    'course_id': assignment.course.id,
+                    'student_id': request.user.id,
+                    'submitted_date': assignment.due_date.strftime('%Y-%m-%d'),
+                    'file_path': assignment.file.url if assignment.file else None
+                }
+
+                # Send message to Kafka
+                send_assignment_submission_message(message)
+
+                messages.success(request, 'ส่งการบ้านสำเร็จ')  # เพิ่มข้อความแจ้งเตือนเมื่อสำเร็จ
+                return redirect('home')
+            else:
+                messages.error(request, 'เฉพาะนักเรียนเท่านั้นที่สามารถส่งการบ้าน')
         else:
             # Prepare message data for failed submission
             fail_message = {
@@ -183,12 +207,16 @@ def submit_assignment(request):
 
             # Send failed submission message to Kafka
             send_assignment_submission_message(fail_message)
-            
+
             messages.error(request, 'ส่งการบ้านไม่สำเร็จ')  # เพิ่มข้อความแจ้งเตือนเมื่อไม่สำเร็จ
-            return render(request, 'classroom/submit_assignment.html', {'form': form})
+            print(request.POST)
+            print(form.errors)
+
+
     else:
         form = SubmitAssignmentForm()
-        return render(request, 'classroom/submit_assignment.html', {'form': form})
+
+    return render(request, 'classroom/submit_assignment.html', {'form': form})
 
 
     

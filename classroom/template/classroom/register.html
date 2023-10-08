@@ -15,6 +15,7 @@
             <div id="studentForm" class="registration-form">
                 <h3>ลงทะเบียนนักเรียน</h3>
                 <form action="{% url 'register' %}" method="POST">
+                    <input type="hidden" name="form_type" value="student">
                     {% csrf_token %}
                     {{ student_form.as_p }}
                     <button type="submit">ลงทะเบียน</button>
@@ -24,6 +25,7 @@
             <div id="teacherForm" class="registration-form" style="display: none;">
                 <h3>ลงทะเบียนอาจารย์</h3>
                 <form action="{% url 'register' %}" method="POST">
+                    <input type="hidden" name="form_type" value="teacher">
                     {% csrf_token %}
                     {{ teacher_form.as_p }}
                     <button type="submit">ลงทะเบียน</button>

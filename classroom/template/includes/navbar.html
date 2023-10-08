@@ -12,12 +12,12 @@
     <div class="flex-grow">
         <div class="d-flex">
             <div class="mx-2">
-                <small class="title text-muted">คุณ {{request.user.first_name}}!</small><br>
-                {% if user.teacher %}
+                <small class="title text-muted">คุณ!</small><br>
+                <!--{% if user.teacher %}
                     <a href="{% url 'teacher' %}">แดชบอร์ด</a> | <a href="{% url 'logout' %}"> ออกจากระบบ</a>
                 {% elif user.student %}
                     <a href="{% url 'student' %}">แดชบอร์ด</a> | <a href="{% url 'logout' %}"> ออกจากระบบ</a>
-                {% endif %}
+                {% endif %}-->
             </div>
         </div>
     </div>

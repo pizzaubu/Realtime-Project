@@ -76,14 +76,20 @@
                                 การตั้งค่า
                                 </a>
                             </li>
-                            {% if user.is_teacher %}
+                            <li class="nav-link">
+                                <a class="nav-item text-secondary" href="{% url 'add_assignment' %}">
+                                <i class="fas fa-cog"></i>
+                                เพิ่มการบ้าน
+                                </a>
+                            </li>
+                            {% if user.teacher %}
                                 <li class="nav-link">
                                     <a class="nav-item text-secondary" href="{% url 'teacher' %}">
                                     <i class="fas fa-cog"></i>
                                     ข้อมูลของฉัน
                                     </a>
                                 </li>
-                            {% elif user.is_student %}
+                            {% elif user.student %}
                                 <li class="nav-link">
                                     <a class="nav-item text-secondary" href="{% url 'student' %}">
                                     <i class="fas fa-cog"></i>

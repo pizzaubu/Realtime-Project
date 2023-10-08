@@ -12,12 +12,14 @@
             <div class="row mt-2">
                 <div class="col-12 bg-">
                     {% include 'includes/alerts.html' %}
+                    {{ form.errors }}
                     <form action="{% url 'submit_assignment' %}" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         
                         <div class="mb-3">
-                            <label for="course" class="form-label">คอร์ส:</label>
-                            <input type="text" class="form-control" id="course" name="course" required>
+                            {{ form.course.label_tag }}
+                            {{ form.course }}
+                            {{ form.course.errors }}
                         </div>
                         
                     

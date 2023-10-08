@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'MyBackend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'classroom',
+        'NAME': 'google_classroom',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',
@@ -139,3 +139,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Media files (uploaded by users)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+
+LOGIN_URL = 'login'

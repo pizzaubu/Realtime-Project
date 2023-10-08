@@ -3,18 +3,20 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Student(models.Model):
-    #id
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
-    first_name = models.CharField(max_length=200)
-    last_name = models.CharField(max_length=300)
-    email = models.EmailField()
+    first_name = models.CharField(max_length=200, null=True, blank=True)
+    last_name = models.CharField(max_length=300, null=True, blank=True)
+    email = models.EmailField(null=True, blank=True)
+
+
 
 class Teacher(models.Model):
     #id
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
-    first_name = models.CharField(max_length=200)
-    last_name = models.CharField(max_length=300)
-    email = models.EmailField()
+    first_name = models.CharField(max_length=200, null=True, blank=True)
+    last_name = models.CharField(max_length=300, null=True, blank=True)
+    email = models.EmailField(null=True, blank=True)
+
 
 class Course(models.Model):
     #"id": 1145200,
@@ -23,6 +25,9 @@ class Course(models.Model):
     teach_date = models.CharField(max_length=50)
     start_time = models.CharField(max_length=6)
     end_time = models.CharField(max_length=6)
+
+    def __str__(self):
+        return self.subject_name
 
 # 1 course has many students
 # 1 student can attend many courses

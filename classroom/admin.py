@@ -25,6 +25,9 @@ class CourseTeacherAdmin(admin.ModelAdmin):
 class AssignmentAdmin(admin.ModelAdmin):
     list_display = ['title', 'description', 'due_date', 'course']
 
+class AssignmentSubmissionAdmin(admin.ModelAdmin):
+    list_display = ['student', 'assignment', 'timestamp', 'submitted_file', 'remarks']
+
 # Register the models and their corresponding admin classes
 admin.site.register(Student, StudentAdmin)
 admin.site.register(Teacher, TeacherAdmin)
@@ -32,3 +35,4 @@ admin.site.register(Course, CourseAdmin)
 admin.site.register(CourseStudent, CourseStudentAdmin)
 admin.site.register(CourseTeacher, CourseTeacherAdmin)
 admin.site.register(Assignment, AssignmentAdmin)
+admin.site.register(AssignmentSubmission, AssignmentSubmissionAdmin)

@@ -2,8 +2,8 @@ from kafka import KafkaProducer
 import json
 
 # ตั้งค่า Kafka producer
-producer = KafkaProducer(bootstrap_servers='localhost:9092', 
-                         value_serializer=lambda v: json.dumps(v).encode('utf-8'))
+producer = KafkaProducer(bootstrap_servers='localhost:9092', value_serializer=lambda v: json.dumps(v).encode('utf-8'))
+        
 
 def send_assignment_message(assignment_data):
     """
@@ -33,7 +33,7 @@ def send_assignment_submission_message(submission_data):
     """
     ส่งข้อมูลเมื่อ student ส่ง assignment ขึ้นไปยัง Kafka topic.
     """
-    topic_name = 'classroom_notifications'
+    topic_name = 'submit_assignment'
     producer.send(topic_name, submission_data)
     producer.flush()
 
@@ -56,22 +56,22 @@ if __name__ == "__main__":
     }
     send_announcement_message(announcement_data_example)
 
-course_data_example = {
-    'type': 'course_creation',
-    'course_id': 101,
-    'subject_name': 'คณิตศาสตร์',
-    'teach_date': 'ทุกวันจันทร์',
-    'start_time': '09:00',
-    'end_time': '10:30'
-}
-send_course_creation_message(course_data_example)
+    course_data_example = {
+        'type': 'course_creation',
+        'course_id': 101,
+        'subject_name': 'คณิตศาสตร์',
+        'teach_date': 'ทุกวันจันทร์',
+        'start_time': '09:00',
+        'end_time': '10:30'
+    }
+    send_course_creation_message(course_data_example)
 
-# ตัวอย่างการใช้งานสำหรับการส่ง assignment
-submission_data_example = {
-    'type': 'assignment_submission',
-    'assignment_id': 1,
-    'student_id': 1001,
-    'submitted_date': '19-09-2023',
-    'file_path': 'path/to/submitted/file.pdf'
-}
-send_assignment_submission_message(submission_data_example)
+    # ตัวอย่างการใช้งานสำหรับการส่ง assignment
+    submission_data_example = {
+        'type': 'assignment_submission',
+        'assignment_id': 1,
+        'student_id': 1001,
+        'submitted_date': '19-09-2023',
+        'file_path': 'path/to/submitted/file.pdf'
+    }
+    send_assignment_submission_message(submission_data_example)

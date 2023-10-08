@@ -41,4 +41,14 @@ class Assignment(models.Model):
     description = models.TextField()
     due_date = models.DateField()
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    file = models.FileField(upload_to='assignments/', null=True, blank=True) 
+    file = models.FileField(upload_to='assignments/', null=True, blank=True)
+
+class AssignmentSubmission(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)  # เวลาที่ส่ง
+    submitted_file = models.FileField(upload_to='submitted_assignments/', null=True, blank=True)  # ไฟล์การบ้านที่ส่ง
+    remarks = models.TextField(null=True, blank=True)  # หมายเหตุหรือความเห็นเพิ่มเติมจากนักเรียน
+
+    class Meta:
+        unique_together = [['student', 'assignment']]  # ตรวจสอบว่านักเรียนแต่ละคนสามารถส่งการบ้านเฉพาะหนึ่งครั้งต่อหนึ่งงาน 

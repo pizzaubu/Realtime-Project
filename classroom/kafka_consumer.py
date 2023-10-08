@@ -19,4 +19,7 @@ for message in consumer:
         print(f"New Assignment: {data['message']}")
     elif notification_type == 'announcement':
         print(f"Class Announcement: {data['message']}")
-    # คุณสามารถเพิ่มเงื่อนไขเพิ่มเติมได้ตามความต้องการ
+    elif notification_type == 'assignment_submission':
+        print(f"Student ID: {data['student_id']} submitted assignment ID: {data['assignment_id']}")
+    elif notification_type == 'assignment_submission_failed':
+        print(f"Student ID: {data['student_id']} tried to submit an assignment but failed.")

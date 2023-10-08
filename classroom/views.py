@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .forms import StudentRegistrationForm, TeacherRegistrationForm, SubmitAssignmentForm, LoginForm
 from kafka import KafkaProducer
 import json
 from classroom.models import *
 from .forms import AssignmentForm
-from .kafka_producer import send_assignment_message
+from .kafka_producer import send_assignment_message,send_assignment_submission_message
+from django.contrib.auth.decorators import login_required
 
 
 def register(request):
@@ -148,35 +150,46 @@ def display_graph(request):
 
     return render(request, 'graph.html', context)
 
+@login_required
 def submit_assignment(request):
     if request.method == 'POST':
         form = SubmitAssignmentForm(request.POST, request.FILES)
         if form.is_valid():
             assignment = form.save(commit=False)
+            assignment.student = request.user.student
             assignment.save()
             
-            # Create Kafka producer
-            producer = KafkaProducer(bootstrap_servers='localhost:9092', value_serializer=lambda v: json.dumps(v).encode('utf-8'))
-            
-            # Prepare message data
+            # Prepare message data for successful submission
             message = {
-                'student': assignment.student.id,
-                'assignment': assignment.title,
-                'description': assignment.description,  # ถ้าคุณต้องการเพิ่มคำอธิบาย
-                'due_date': assignment.due_date.strftime('%Y-%m-%d') if assignment.due_date else None,  # แปลงเป็น string
-                'file': assignment.file.url if assignment.file else None
+                'type': 'assignment_submission',
+                'assignment_id': assignment.id,
+                'course_id': assignment.course.id,
+                'student_id': request.user.id,
+                'submitted_date': assignment.due_date.strftime('%Y-%m-%d'),
+                'file_path': assignment.file.url if assignment.file else None
             }
-            
+
             # Send message to Kafka
-            producer.send('assignment-submissions', message)
-            producer.flush()
+            send_assignment_submission_message(message)
             
+            messages.success(request, 'ส่งการบ้านสำเร็จ')  # เพิ่มข้อความแจ้งเตือนเมื่อสำเร็จ
             return redirect('home')
         else:
+            # Prepare message data for failed submission
+            fail_message = {
+                'type': 'assignment_submission_failed',
+                'student_id': request.user.id,
+            }
+
+            # Send failed submission message to Kafka
+            send_assignment_submission_message(fail_message)
+            
+            messages.error(request, 'ส่งการบ้านไม่สำเร็จ')  # เพิ่มข้อความแจ้งเตือนเมื่อไม่สำเร็จ
             return render(request, 'classroom/submit_assignment.html', {'form': form})
     else:
         form = SubmitAssignmentForm()
         return render(request, 'classroom/submit_assignment.html', {'form': form})
+
 
     
 def classwork(request):

@@ -5,12 +5,12 @@ from django.contrib.auth.forms import AuthenticationForm
 class StudentRegistrationForm(forms.ModelForm):
     class Meta:
         model = Student
-        fields = ['user', 'first_name', 'last_name', 'email']
+        fields = ['username', 'first_name', 'last_name', 'email']
 
 class TeacherRegistrationForm(forms.ModelForm):
     class Meta:
         model = Teacher
-        fields = ['user', 'first_name', 'last_name', 'email']
+        fields = ['username', 'first_name', 'last_name', 'email']
 
 class AssignmentForm(forms.ModelForm):
     class Meta:

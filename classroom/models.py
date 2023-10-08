@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Student(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+    username = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     first_name = models.CharField(max_length=200, null=True, blank=True)
     last_name = models.CharField(max_length=300, null=True, blank=True)
     email = models.EmailField(null=True, blank=True)
@@ -12,7 +12,7 @@ class Student(models.Model):
 
 class Teacher(models.Model):
     #id
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+    username = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     first_name = models.CharField(max_length=200, null=True, blank=True)
     last_name = models.CharField(max_length=300, null=True, blank=True)
     email = models.EmailField(null=True, blank=True)

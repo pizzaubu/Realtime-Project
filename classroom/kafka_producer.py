@@ -9,7 +9,7 @@ def send_assignment_message(assignment_data):
     """
     ส่งข้อมูลเกี่ยวกับ assignment ที่ถูกสร้างขึ้นไปยัง Kafka topic.
     """
-    topic_name = 'classroom_notifications'
+    topic_name = 'add_assignment'
     producer.send(topic_name, assignment_data)
     producer.flush()
 
@@ -17,7 +17,7 @@ def send_announcement_message(announcement_data):
     """
     ส่งข้อมูลเกี่ยวกับประกาศในชั้นเรียนที่ถูกสร้างขึ้นไปยัง Kafka topic.
     """
-    topic_name = 'classroom_notifications'
+    topic_name = 'announcement'
     producer.send(topic_name, announcement_data)
     producer.flush()
 
@@ -25,7 +25,7 @@ def send_course_creation_message(course_data):
     """
     ส่งข้อมูลเกี่ยวกับ course ที่ถูกสร้างขึ้นไปยัง Kafka topic.
     """
-    topic_name = 'classroom_notifications'
+    topic_name = 'add_course'
     producer.send(topic_name, course_data)
     producer.flush()
 

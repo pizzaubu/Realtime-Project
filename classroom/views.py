@@ -126,8 +126,12 @@ def add_assignment(request):
                 'course': assignment.course.subject_name
             }
             send_assignment_message(message_data)
+            context = {
+            'form': form,
+            'new_assignment': assignment if form.is_valid() else None
+        }
 
-            return redirect('teacher')  # ส่งกลับไปยังหน้าที่ต้องการหลังจากเพิ่ม Assignment เรียบร้อย
+            return redirect('home')  # ส่งกลับไปยังหน้าที่ต้องการหลังจากเพิ่ม Assignment เรียบร้อย
     else:
         form = AssignmentForm()
 

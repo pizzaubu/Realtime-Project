@@ -78,11 +78,13 @@
 
 </style>
 
+{% if new_assignment %}
 <div class="due-alert">
   <span class="alert-icon"><i class="fas fa-exclamation-circle"></i></span>
-  <span class="alert-text">คุณมีงาน <strong>การบ้าน: การทำความเข้าใจเรื่อง...</strong> ที่ต้องส่งภายใน 3 วัน</span>
+  <span class="alert-text">คุณมีงาน <strong>{{ new_assignment.title }}</strong> ที่ต้องส่งภายใน {{ new_assignment.due_date|date:"d" }} วัน</span>
   <span class="alert-close"><i class="fas fa-times"></i></span>
 </div>
+{% endif %}
 
 <section>
     <div class="container-fluid">
